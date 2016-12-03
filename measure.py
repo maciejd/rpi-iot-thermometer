@@ -3,7 +3,7 @@ import sqlite3
 import threading
 
 def probe():
-    threading.Timer(60.0, probe).start()
+    threading.Timer(300.0, probe).start()
     conn = sqlite3.connect('temp.db')
     sensor = W1ThermSensor()
     temp = sensor.get_temperature()
