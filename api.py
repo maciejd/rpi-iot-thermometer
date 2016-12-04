@@ -19,7 +19,8 @@ def index():
 
 @app.route('/data/')
 def data():
-    t = Temps.query.all()
+    since = datetime.datetime.now() - datetime.timedelta(hours=24)
+    t = Temps.query.filter(Temps.timestamp >= since).all()
     return json.dumps([{"_id": i, "date": t[i].timestamp.strftime("%Y-%m-%d %H:%M"), "temp": t[i].temp}
         for i in range(len(t))])
 
