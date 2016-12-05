@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, abort, request, render_template
 from flask_sqlalchemy import SQLAlchemy
-import datetime
-import json
+from sqlalchemy.sql import func
+import datetime, json
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -26,4 +26,11 @@ def data():
 
 @app.route('/')
 def graph():
-     return render_template("index.html")
+     since = datetime.datetime.now() - datetime.timedelta(hours=24)
+     last24 = Temps.query.filter(Temps.timestamp >= since)
+     now = Temps.query.order_by(Temps.id.desc()).first()
+     max = Temps.query.with_entities(func.max(Temps.temp).label("temp"), Temps.timestamp).first()
+     avg = last24.with_entities(func.avg(Temps.temp).label("temp")).first()
+     min = Temps.query.with_entities(func.min(Temps.temp).label("temp"), Temps.timestamp).first()
+     return render_template("index.html", now=now, max=max, avg=avg, min=min)
+

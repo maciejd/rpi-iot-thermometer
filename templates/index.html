@@ -18,6 +18,11 @@
     </style>
 </head>
 <body>
+<div>
+Now: {{ now.temp }}<br />
+Avg: {{ avg.temp }} (last 24h)<br />
+Max: {{ max.temp }} at {{ max.timestamp }}<br />
+Min: {{ min.temp }} at {{ min.timestamp }}
     <script>
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
