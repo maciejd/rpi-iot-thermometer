@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Home</title>
-        <link rel="stylesheet" href="boot">
-    </head>
-    <body>
-        
-    </body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- <link rel="stylesheet" type="text/css" href="/home/pi/Project/rpi-iot-thermometer/bootstrap-3.4.1/css/bootstrap.min.css"/> -->
+		
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<title>bootstrap面板</title>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="panel panel-default panel-primary">
+				<div class="panel-heading text-center">
+					智能家居系统
+				</div>
+				<div class="panel-body">
+					<h3>#DS18B20</h3>
+					<ul>
+						<li><b>室内温度:</b> {{ds18b20_temperature}} *C</li>
+					</ul>
+					
+					<h3>#DHT11</h3>
+					<ul>
+						<li><b>室内温度:</b> {{dht11_temperature}} *C</li>
+						<li><b>室内湿度:</b> {{dht11_humidity}} %</li> <br>
+					</ul>
+					<button class="btn btn-info">刷新</button> <br>
+					<p>最近一次更新时间: 2021-11-20:09:00:00</p>
+				</div>
+				<div class="panel-footer text-center">
+					检测数据来源于Raspberry设备 <br>
+					Powered by penghui.wei
+				</div>
+			</div>
+		</div>
+
+	</body>
 </html>
