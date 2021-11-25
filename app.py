@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 # import sensor
 from sensors import DHT11, DS18b20
 
@@ -11,3 +11,11 @@ def hello():
     print(f'dht11_temperature:{dht11_temperature}')
     return render_template('home.html', ds18b20_temperature=ds18b20_temperature, dht11_temperature=dht11_temperature, dht11_humidity=dht11_humidity)
     return 'Hello'
+
+
+@app.route("/temperature", methods=['GET'])
+def get_tmperature():
+    ds18b20_temperature = DS18b20.get_temperature_from_ds18b20()
+    return jsonify(
+        {"tmperature_DS18B20": ds18b20_temperature}
+    )

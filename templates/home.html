@@ -6,7 +6,26 @@
 		<!-- <link rel="stylesheet" type="text/css" href="/home/pi/Project/rpi-iot-thermometer/bootstrap-3.4.1/css/bootstrap.min.css"/> -->
 		
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 		<title>bootstrap面板</title>
+
+		<script type="text/javascript">
+			$(document).ready(
+				function() {
+					$("#btn-refresh").click(
+						function() {
+							console.log('btn-refresh-click');
+							$.get("/temperature", function(data, status) {
+								console.dir(data);
+								temperature_ds18b20 = data["tmperature_DS18B20"];
+								alert("已刷新,temperature:" +  temperature_ds18b20);
+								// $(this).text(temperature_ds18b20);
+							});	
+						}
+					);
+				}
+			);
+		</script>
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -25,7 +44,7 @@
 						<li><b>室内温度:</b> {{dht11_temperature}} *C</li>
 						<li><b>室内湿度:</b> {{dht11_humidity}} %</li> <br>
 					</ul>
-					<button class="btn btn-info">刷新</button> <br>
+					<button class="btn btn-info" id="btn-refresh">刷新</button> <br>
 					<p>最近一次更新时间: 2021-11-20:09:00:00</p>
 				</div>
 				<div class="panel-footer text-center">
