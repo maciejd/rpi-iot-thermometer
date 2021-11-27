@@ -7,7 +7,7 @@
 		
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-		<title>bootstrap面板</title>
+		<title>智能家居系统面板</title>
 
 		<script type="text/javascript">
 			$(document).ready(
@@ -15,12 +15,20 @@
 					$("#btn-refresh").click(
 						function() {
 							console.log('btn-refresh-click');
-							$.get("/temperature", function(data, status) {
+							var date = new Date();
+							$("#refresh_time").html("最近一次更新时间: " + date.toLocaleString());
+							$.get("/refresh_data", function(data, status) {
 								console.dir(data);
-								temperature_ds18b20 = data["tmperature_DS18B20"];
-								alert("已刷新,temperature:" +  temperature_ds18b20);
-								// $(this).text(temperature_ds18b20);
-							});	
+								temperature_ds18b20 = data["temperature_DS18B20"];
+								temperature_dht11 = data["temperature_DHT11"];
+								humidity_dht11 = data["humidity_DHT11"];
+								// alert("已刷新,temperature:" +  temperature_ds18b20);
+								$("#ds18b20_temperature").html("<b>室内温度: </b>" + temperature_ds18b20 + " *C");
+								$("#dht11_temperature").html("<b>室内温度: </b>" + temperature_dht11 + " *C")
+								$("#dht11_humidity").html("<b>室内湿度: </b>" + humidity_dht11 + " %")
+
+							}
+							);	
 						}
 					);
 				}
@@ -36,16 +44,16 @@
 				<div class="panel-body">
 					<h3>#DS18B20</h3>
 					<ul>
-						<li><b>室内温度:</b> {{ds18b20_temperature}} *C</li>
+						<li id="ds18b20_temperature" class="bi bi-thermometer-half"><b>室内温度:</b> {{ds18b20_temperature}} *C</li>
 					</ul>
 					
 					<h3>#DHT11</h3>
 					<ul>
-						<li><b>室内温度:</b> {{dht11_temperature}} *C</li>
-						<li><b>室内湿度:</b> {{dht11_humidity}} %</li> <br>
+						<li id="dht11_temperature"><b>室内温度:</b> {{dht11_temperature}} *C</li>
+						<li id="dht11_humidity"><b>室内湿度:</b> {{dht11_humidity}} %</li> <br>
 					</ul>
-					<button class="btn btn-info" id="btn-refresh">刷新</button> <br>
-					<p>最近一次更新时间: 2021-11-20:09:00:00</p>
+					<button class="btn btn-info glyphicon glyphicon-refresh" id="btn-refresh">刷新</button> <br>
+					<p id="refresh_time">最近一次更新时间: 2021-11-20:09:00:00</p>
 				</div>
 				<div class="panel-footer text-center">
 					检测数据来源于Raspberry设备 <br>
