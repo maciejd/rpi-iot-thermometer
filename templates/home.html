@@ -7,6 +7,8 @@
 		
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+
 		<title>智能家居系统面板</title>
 
 		<script type="text/javascript">
@@ -31,6 +33,40 @@
 							);	
 						}
 					);
+					
+					var myChart = echarts.init(document.getElementById("chart"));
+					var timeStamp = [];
+					var temperature_data_array = [25];
+					var k = 1;
+
+					chart_option = {
+						title: {
+							text: '温度变化趋势'
+						},
+						tooltip: {},
+						xAxis: {
+							data: timeStamp
+						},
+						yAxis: {},
+						series: [{
+							name: 'Temperature',
+							type: 'line',
+							data: temperature_data_array
+						}]
+					};
+
+					myChart.setOption(chart_option);
+					setInterval(function(){
+						$.get("/refresh_data", function(data, status) {
+							var temperature = data["temperature_DS18B20"];
+							// var humidity = data["humidity_DHT11"];
+							temperature_data_array.push(temperature);
+							k += 1;
+							timeStamp.push(k);
+							myChart.setOption(chart_option);
+						})
+
+					}, 30000);
 				}
 			);
 		</script>
@@ -60,6 +96,9 @@
 					Powered by penghui.wei
 				</div>
 			</div>
+
+			<div id="chart" style="height: 500px;"></div>
+
 		</div>
 
 	</body>
