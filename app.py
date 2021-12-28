@@ -9,14 +9,27 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app=app)
-class SensorData(db.Model):
+
+# 24h 温度 + 湿度
+class SensorDataHour(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    hour = db.Column(db.Integer)
+    temperature = db.Column(db.Float)
+    humidity = db.Column(db.Integer)
+    
+    def __repr__(self) -> str:
+        return f'hour: {self.hour} h, temperature: {self.temperature} *C, humidity:{self.humidity} %'
+
+
+# 每天温度
+class SensorDataDaily(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    day = db.Column(db.Integer)
     temperature = db.Column(db.Float)
     humidity = db.Column(db.Integer)
     
     def __repr__(self) -> str:
         return f'temperature: {self.temperature}, humidity:{self.humidity}'
-
 
 db.drop_all()
 db.create_all()
@@ -25,7 +38,7 @@ def send_data_repeat():
     threading.Timer(3, send_data_repeat).start()
     temperature = DS18b20.get_temperature_from_ds18b20()
     _, humidity = DHT11.read_from_DHT11().values()
-    sensor_data = SensorData(temperature=temperature, humidity=humidity)
+    sensor_data = SensorDataHour(temperature=temperature, humidity=humidity)
     print(f'send_data: {sensor_data}')
     # add new data
     db.session.add(sensor_data)
@@ -35,21 +48,19 @@ def send_data_repeat():
 @app.route("/home")
 def hello():
     ds18b20_temperature = DS18b20.get_temperature_from_ds18b20()
-    dht11_temperature, dht11_humidity = DHT11.read_from_DHT11().values()
-    print(f'dht11_temperature:{dht11_temperature}')
-    return render_template('home.html', ds18b20_temperature=ds18b20_temperature, dht11_temperature=dht11_temperature, dht11_humidity=dht11_humidity)
-    return 'Hello'
+    _, dht11_humidity = DHT11.read_from_DHT11().values()
+    return render_template('home.html', temperature=ds18b20_temperature, humidity=dht11_humidity)
 
 
+# For Ajax
 @app.route("/refresh_data", methods=['GET'])
 def refresh_data():
     ds18b20_temperature = DS18b20.get_temperature_from_ds18b20()
-    dht11_temperature, dht11_humidity = DHT11.read_from_DHT11().values()
+    _, dht11_humidity = DHT11.read_from_DHT11().values()
     return jsonify(
         {
-            "temperature_DS18B20": ds18b20_temperature,
-            "temperature_DHT11": dht11_temperature,
-            "humidity_DHT11": dht11_humidity
+            "temperature": ds18b20_temperature,
+            "humidity": dht11_humidity
         }
     )
 
