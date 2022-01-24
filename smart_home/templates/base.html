@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block  title%}smart_home{% endblock  %}</title>
+
+    {{ bootstrap.load_css() }}
+</head>
+<body>
+
+    <main class="container">
+        <header>
+            <h1 class="text-center">
+                <strong>欢迎进入智能家居系统</strong>
+            </h1>
+        </header>
+
+        {% block content %}{% endblock content %}
+
+        <footer class="text-center">
+            {% block footer %}
+                <small>&copy; 2022 <a href="#" title="Powered by Penghui.wei"></a></small> 
+            {% endblock footer %}
+        </footer>
+
+    </main>
+    
+    <!-- Load JS -->
+    {{ bootstrap.load_js() }}
+    {{ moment.include_moment() }}
+    {% block echart_js %}{% endblock echart_js %}
+</body>
+</html>
