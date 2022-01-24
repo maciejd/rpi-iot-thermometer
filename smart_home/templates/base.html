@@ -7,29 +7,29 @@
     <title>{% block  title%}smart_home{% endblock  %}</title>
 
     {{ bootstrap.load_css() }}
+
+     <!-- Load JS -->
+    {{ bootstrap.load_js() }}
+    {{ moment.include_moment() }}
+    {% block echart_js %}{% endblock echart_js %}
 </head>
 <body>
 
     <main class="container">
-        <header>
-            <h1 class="text-center">
+        <!-- <header>
+            <!-- <h1 class="text-center">
                 <strong>欢迎进入智能家居系统</strong>
-            </h1>
-        </header>
+            </h1> -->
+        </header> -->
 
         {% block content %}{% endblock content %}
 
         <footer class="text-center">
             {% block footer %}
-                <small>&copy; 2022 <a href="#" title="Powered by Penghui.wei"></a></small> 
+                <small>&copy; 2022 <a href="#Bottom" title="Powered by Penghui.wei"></a></small> 
             {% endblock footer %}
         </footer>
 
-    </main>
-    
-    <!-- Load JS -->
-    {{ bootstrap.load_js() }}
-    {{ moment.include_moment() }}
-    {% block echart_js %}{% endblock echart_js %}
+    </main> 
 </body>
 </html>

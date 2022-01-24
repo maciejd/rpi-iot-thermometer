@@ -12,4 +12,4 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 
 # Must
-from smart_home import views, models
+from smart_home import views, models, commands
