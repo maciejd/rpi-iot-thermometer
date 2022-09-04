@@ -1,0 +1,3 @@
+FLASK_APP=smart_home
+FLASK_ENV=development
+debug=True

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block  title%}smart_home{% endblock  %}</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.4.3.2.min.js') }}"></script>
+    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+
+    <!-- Load from CND -->
+    <!-- {{ bootstrap.load_css() }}
+    {{ bootstrap.load_js() }}
+    {{ moment.include_moment() }} -->
+    {% block echart_js %}{% endblock echart_js %}
+</head>
+<body>
+    {% block nav %}{% endblock nav %}
+    <main class="container-fluid">
+        {% block content %}{% endblock content %}
+    </main>
+    <footer class="text-center">
+        {% block footer %}
+            <small>&copy; 2022 <a href="#Bottom" title="Powered by Penghui.wei"></a></small> 
+        {% endblock footer %}
+    </footer>
+</body>
+</html>

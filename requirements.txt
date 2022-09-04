@@ -1,0 +1,17 @@
+# https://huyu.info/blog/detail/89
+
+flask
+python-dotenv
+flask-wtf
+flask-mail
+flask-sqlalchemy
+bootstrap-flask 
+flask-moment
+flask-login
+flask-dropzone
+flask-assets
+flask-socketio
+
+faker
+Adafruit_DHT
+

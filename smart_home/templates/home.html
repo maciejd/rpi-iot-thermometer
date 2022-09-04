@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}智能家居-首页{% endblock title %}
+
+{% block echart_js %}
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script src="{{ url_for('static', filename='js/echart_sensor.js') }}" type="text/javascript"></script>
+{% endblock echart_js %}
+
+{% block content %}
+    <div class="jumbotron bg-secondary">
+        <div class="container">
+            <h1>室内温湿度</h1>
+            <h2 id="text_temperature"><b>温度:</b> {{temperature}} *C</h2>
+            <h2 id="text_humidity"><b>湿度:</b> {{humidity}} %</h2> <br>
+            <p id="refresh_time">最近一次更新时间: 2021-11-20:09:00:00</p>
+            <p><a id="btn-refresh" class="btn btn-primary btn-lg glyphicon glyphicon-refresh" href="#" role="button">刷新</a></p>
+        </div>
+    </div>
+
+    <!-- EChart -->
+    <div id="chart" style="height: 500px;"></div>
+{% endblock content %}
