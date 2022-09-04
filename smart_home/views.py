@@ -9,19 +9,12 @@ from smart_home.sensors.DHT11 import read_from_DHT11
 def home():
     temperature = get_temperature_from_ds18b20()
     _, humidity = read_from_DHT11().values()
-    if temperature is not None and humidity is not None:
-        return render_template('home.html', temperature=temperature, humidity=humidity)
+    # sometime the data are None from sensor
+    if not temperature:
+        temperature = -1
+    if not humidity:
+        humidity = -1
+    return render_template('home.html', temperature=temperature, humidity=humidity)
 
 
-# For Ajax
-@app.route("/refresh_data", methods=['GET'])
-def refresh_data():
-    ds18b20_temperature = get_temperature_from_ds18b20()
-    _, dht11_humidity = read_from_DHT11().values()
-    if ds18b20_temperature is not None and dht11_humidity is not None:
-        return jsonify(
-            {
-                "temperature": ds18b20_temperature,
-                "humidity": dht11_humidity
-            }
-        )
+
